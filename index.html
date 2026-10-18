@@ -206,7 +206,8 @@ footer { margin-top: 56px; padding: 16px 0 28px; border-top: 2px solid var(--rul
 @media (max-width: 900px) {
   .hero, .split, .cert { grid-template-columns: 1fr; }
   .hero { gap: 28px; }
-  .count .stamp { right: 8px; bottom: 22%; font-size: 1.375rem; }
+  .count { justify-self: start; }
+  .count .stamp { right: auto; left: calc(100% - .5em); bottom: 22%; font-size: clamp(1.25rem, 4vw, 2rem); }
   .findings { grid-template-columns: repeat(2, 1fr); }
   .cols { display: none; }
   .row > summary {
