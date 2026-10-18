@@ -167,10 +167,10 @@ section { margin-top: clamp(48px, 8vh, 88px); }
 
 .cols, .row > summary {
   display: grid; align-items: center; gap: 14px;
-  grid-template-columns: 2.75rem minmax(0, 1fr) minmax(0, 2fr) 9.5rem;
+  grid-template-columns: 2.75rem minmax(0, 1fr) minmax(0, 2fr) 9.5rem 1.25rem;
 }
 .cols { padding: 12px 14px 10px; border-bottom: 1px solid var(--rule); }
-.cols .label:last-child { text-align: center; }
+.cols .label:nth-child(4) { text-align: center; }
 .row { border-bottom: 1px solid var(--rule-soft); }
 .row > summary { list-style: none; cursor: pointer; padding: 15px 14px; transition: background .15s; }
 .row > summary::-webkit-details-marker { display: none; }
@@ -180,6 +180,11 @@ section { margin-top: clamp(48px, 8vh, 88px); }
 .row .co { font-weight: 700; font-size: 1.0625rem; letter-spacing: -.01em; }
 .row .role { font-size: .9375rem; }
 .row .st { text-align: center; }
+.row .chev { width: 18px; height: 18px; justify-self: end; transition: transform .3s var(--ease); }
+.row[open] .chev { transform: rotate(45deg); }
+.row > summary:hover .co { text-decoration: underline; text-underline-offset: .2em; }
+.hint { display: flex; align-items: flex-start; gap: 8px; margin: 0; padding: 12px 0 0; font-family: var(--type); font-size: .875rem; color: var(--ink-2); }
+.hint svg { width: 14px; height: 14px; flex: none; margin-top: .2em; }
 .detail { display: grid; grid-template-columns: 2.75rem 1fr 1fr; gap: 14px; padding: 4px 14px 24px; background: var(--wash); }
 .detail > div { padding-top: 14px; border-top: 1px solid var(--rule-soft); }
 .detail > div:first-child { border: 0; }
@@ -211,7 +216,7 @@ footer { margin-top: 56px; padding: 16px 0 28px; border-top: 2px solid var(--rul
   .findings { grid-template-columns: repeat(2, 1fr); }
   .cols { display: none; }
   .row > summary {
-    grid-template-columns: auto 1fr auto; grid-template-areas: "no co st" "no role role";
+    grid-template-columns: auto 1fr auto 18px; grid-template-areas: "no co st chev" "no role role chev";
     gap: 4px 12px; align-items: start;
   }
   .row .no { grid-area: no; padding-top: 3px; }
@@ -219,6 +224,7 @@ footer { margin-top: 56px; padding: 16px 0 28px; border-top: 2px solid var(--rul
   .row .role { grid-area: role; }
   .row .role { color: var(--ink-2); }
   .row .st { grid-area: st; }
+  .row .chev { grid-area: chev; align-self: center; }
   .detail { grid-template-columns: 1fr; padding-left: 14px; }
   .detail > div:first-child { display: none; }
 }
@@ -302,8 +308,9 @@ footer { margin-top: 56px; padding: 16px 0 28px; border-top: 2px solid var(--rul
           </label>
         </div>
       </div>
+      <p class="hint"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>Tap or click any firm to open its file and see what they said.</p>
       <div class="cols" aria-hidden="true">
-        <span class="label">No.</span><span class="label">Firm</span><span class="label">Response</span><span class="label">Outcome</span>
+        <span class="label">No.</span><span class="label">Firm</span><span class="label">Response</span><span class="label">Outcome</span><span></span>
       </div>
       <div id="rows"></div>
     </section>
@@ -442,6 +449,7 @@ function render() {
       <span class="co">${esc(r.company)}</span>
       <span class="role">${esc(OUTCOMES[r.out].label)}</span>
       <span class="st">${stamp(r.out, r.id)}</span>
+      <svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>
     </summary><div class="detail"><div></div>
       <div><span class="label">What they said</span><p class="quote">${esc(r.said)}</p></div>
       <div><span class="label">Remarks of the subject</span><p>${esc(r.note)}</p></div>
